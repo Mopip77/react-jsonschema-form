@@ -32,13 +32,17 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
   const [showForm, setShowForm] = useState(false);
   const [liveSettings, setLiveSettings] = useState<LiveSettings>({
     showErrorList: 'top',
+    liveValidate: true,
     validate: false,
     disabled: false,
     noHtml5Validate: false,
     readonly: false,
     omitExtraData: false,
     liveOmit: false,
-    experimental_defaultFormStateBehavior: { arrayMinItems: 'populate', emptyObjectFields: 'populateAllDefaults' },
+    experimental_defaultFormStateBehavior: {
+      arrayMinItems: { populate: 'all' },
+      emptyObjectFields: 'populateAllDefaults',
+    },
   });
   const [FormComponent, setFormComponent] = useState<ComponentType<FormProps>>(withTheme({}));
   const [otherFormProps, setOtherFormProps] = useState<Partial<FormProps>>({});
