@@ -319,7 +319,7 @@ export default function Header({
 
   return (
     <div className='page-header'>
-      <h1>react-jsonschema-form</h1>
+      <h1>jsonschema-表单编辑器</h1>
       <div className='row'>
         <div className='col-sm-4'>
           <Selector onSelected={load} />
