@@ -204,6 +204,14 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
                 onBlur={(id: string, value: string) => console.log(`Touched ${id} with value ${value}`)}
                 onFocus={(id: string, value: string) => console.log(`Focused ${id} with value ${value}`)}
                 onError={(errorList: RJSFValidationError[]) => console.log('errors', errorList)}
+                transformErrors={(errors) => {
+                  return errors.filter((error) => {
+                    if (error.message === 'must be integer' && typeof error.data === 'bigint') {
+                      return false;
+                    }
+                    return true;
+                  });
+                }}
                 ref={playGroundFormRef}
               />
             </DemoFrame>

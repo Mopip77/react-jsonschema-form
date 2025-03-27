@@ -32,7 +32,7 @@ export function transformRJSFValidationErrors<
   F extends FormContextType = any
 >(errors: ErrorObject[] = [], uiSchema?: UiSchema<T, S, F>): RJSFValidationError[] {
   return errors.map((e: ErrorObject) => {
-    const { instancePath, keyword, params, schemaPath, parentSchema, ...rest } = e;
+    const { instancePath, keyword, params, schemaPath, parentSchema, data, ...rest } = e;
     let { message = '' } = rest;
     let property = instancePath.replace(/\//g, '.');
     let stack = `${property} ${message}`.trim();
@@ -94,6 +94,7 @@ export function transformRJSFValidationErrors<
       params, // specific to ajv
       stack,
       schemaPath,
+      data,
     };
   });
 }
@@ -128,7 +129,13 @@ export default function processRawValidationErrors<
   let errors = transformRJSFValidationErrors<T, S, F>(rawErrors.errors, uiSchema);
 
   if (invalidSchemaError) {
-    errors = [...errors, { stack: invalidSchemaError!.message }];
+    errors = [
+      ...errors,
+      {
+        stack: invalidSchemaError!.message,
+        data: undefined,
+      },
+    ];
   }
   if (typeof transformErrors === 'function') {
     errors = transformErrors(errors, uiSchema);

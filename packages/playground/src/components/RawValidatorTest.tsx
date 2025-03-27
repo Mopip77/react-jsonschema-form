@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ValidatorType, RJSFSchema } from '@rjsf/utils';
+import { JSONStringify } from 'json-with-bigint';
 
 interface RawValidatorTestProps {
   validator: ValidatorType;
@@ -16,7 +17,7 @@ export default function RawValidatorTest({ validator, schema, formData }: RawVal
   if (rawValidation) {
     displayErrors =
       rawValidation.errors || rawValidation.validationError
-        ? JSON.stringify(rawValidation, null, 2)
+        ? JSONStringify(rawValidation, null, 2)
         : 'No AJV errors encountered';
   }
   return (
