@@ -57,10 +57,21 @@ function NumberField<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends
       // Check that the value is a string (this can happen if the widget used is a
       // <select>, due to an enum declaration etc) then, if the value ends in a
       // trailing decimal point or multiple zeroes, strip the trailing values
-      const processed =
-        typeof value === 'string' && value.match(trailingCharMatcherWithPrefix)
-          ? asNumber(value.replace(trailingCharMatcher, ''))
-          : asNumber(value);
+      let processed = value;
+      if (typeof value === 'bigint') {
+        processed = value.toString();
+      } else if (typeof value === 'string') {
+        if (value.match(trailingCharMatcherWithPrefix)) {
+          processed = asNumber(value.replace(trailingCharMatcher, ''));
+        } else {
+          processed = asNumber(value);
+          if (processed > Number.MAX_SAFE_INTEGER) {
+            processed = BigInt(value);
+          }
+        }
+      } else {
+        processed = asNumber(value);
+      }
 
       onChange(processed as unknown as T, errorSchema, id);
     },
@@ -78,6 +89,8 @@ function NumberField<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends
     if (lastValue.match(re)) {
       value = lastValue as unknown as T;
     }
+  } else if (typeof value === 'bigint') {
+    value = value.toString() as unknown as T;
   }
 
   return <StringField {...props} formData={value} onChange={handleChange} />;

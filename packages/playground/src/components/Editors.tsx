@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { ErrorSchema, RJSFSchema, UiSchema } from '@rjsf/utils';
 import isEqualWith from 'lodash/isEqualWith';
+import { JSONParse, JSONStringify } from 'json-with-bigint';
 
 const monacoEditorOptions = {
   minimap: {
@@ -26,7 +27,7 @@ function Editor({ title, code, onChange }: EditorProps) {
       }
 
       try {
-        const parsedCode = JSON.parse(code);
+        const parsedCode = JSONParse(code);
         setValid(true);
         onChange(parsedCode);
       } catch (err) {
@@ -57,7 +58,7 @@ function Editor({ title, code, onChange }: EditorProps) {
   );
 }
 
-const toJson = (val: unknown) => JSON.stringify(val, null, 2);
+const toJson = (val: unknown) => JSONStringify(val, 2);
 
 type EditorsProps = {
   schema: RJSFSchema;
@@ -105,7 +106,7 @@ export default function Editors({
           // Since this is coming from the editor which uses JSON.stringify to trim undefined values compare the values
           // using JSON.stringify to see if the trimmed formData is the same as the untrimmed state
           // Sometimes passing the trimmed value back into the Form causes the defaults to be improperly assigned
-          return JSON.stringify(oldValue) === JSON.stringify(newValue);
+          return JSONStringify(oldValue) === JSONStringify(newValue);
         })
       ) {
         setFormData(newFormData);
