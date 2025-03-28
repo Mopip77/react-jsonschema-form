@@ -9,6 +9,7 @@
     <script>
       window.global = globalThis;
 
+      // 替换 fetch 请求
       if (window.fetch) {
         const originalFetch = window.fetch;
         window.fetch = function(url, options) {
@@ -18,6 +19,40 @@
           return originalFetch(url, options);
         };
       }
+
+      // 替换 XHR 请求
+      const originalXHROpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(method, url, ...args) {
+        if (typeof url === 'string' && url.includes('cdn.jsdelivr.net')) {
+          url = url.replace('cdn.jsdelivr.net', 'fastly.jsdelivr.net');
+        }
+        return originalXHROpen.call(this, method, url, ...args);
+      };
+
+      // 重写资源加载
+      const replaceJsdelivr = (url) => {
+        return typeof url === 'string' ? url.replace('cdn.jsdelivr.net', 'fastly.jsdelivr.net') : url;
+      };
+
+      // 监听动态添加的脚本和样式
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.tagName === 'SCRIPT' && node.src) {
+              node.src = replaceJsdelivr(node.src);
+            }
+            if (node.tagName === 'LINK' && node.href) {
+              node.href = replaceJsdelivr(node.href);
+            }
+          });
+        });
+      });
+
+      // 开始监听 DOM 变化
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
     </script>
   </head>
   <body>
