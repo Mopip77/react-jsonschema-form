@@ -34,47 +34,47 @@ const validators: PlaygroundProps['validators'] = {
 
 const themes: PlaygroundProps['themes'] = {
   default: {
-    stylesheet: 'http://fastly.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css',
+    stylesheet: 'https://fastly.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css',
     theme: {},
     subthemes: {
       cerulean: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cerulean/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cerulean/bootstrap.min.css',
       },
       cosmo: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cosmo/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cosmo/bootstrap.min.css',
       },
       cyborg: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cyborg/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cyborg/bootstrap.min.css',
       },
       darkly: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/darkly/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/darkly/bootstrap.min.css',
       },
       flatly: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/flatly/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/flatly/bootstrap.min.css',
       },
       journal: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/journal/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/journal/bootstrap.min.css',
       },
       lumen: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/lumen/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/lumen/bootstrap.min.css',
       },
       paper: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/paper/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/paper/bootstrap.min.css',
       },
       readable: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/readable/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/readable/bootstrap.min.css',
       },
       sandstone: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/sandstone/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/sandstone/bootstrap.min.css',
       },
       simplex: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/simplex/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/simplex/bootstrap.min.css',
       },
       slate: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/slate/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/slate/bootstrap.min.css',
       },
       spacelab: {
-        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/spacelab/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/spacelab/bootstrap.min.css',
       },
       'solarized-dark': {
         stylesheet: '//cdn.rawgit.com/aalpern/bootstrap-solarized/master/bootstrap-solarized-dark.css',
