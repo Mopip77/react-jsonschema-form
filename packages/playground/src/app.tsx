@@ -34,47 +34,47 @@ const validators: PlaygroundProps['validators'] = {
 
 const themes: PlaygroundProps['themes'] = {
   default: {
-    stylesheet: '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
+    stylesheet: 'http://fastly.jsdelivr.net/npm/bootstrap@3.3.6/dist/css/bootstrap.min.css',
     theme: {},
     subthemes: {
       cerulean: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cerulean/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cerulean/bootstrap.min.css',
       },
       cosmo: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cosmo/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cosmo/bootstrap.min.css',
       },
       cyborg: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cyborg/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/cyborg/bootstrap.min.css',
       },
       darkly: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/darkly/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/darkly/bootstrap.min.css',
       },
       flatly: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/flatly/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/flatly/bootstrap.min.css',
       },
       journal: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/journal/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/journal/bootstrap.min.css',
       },
       lumen: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/lumen/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/lumen/bootstrap.min.css',
       },
       paper: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/paper/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/paper/bootstrap.min.css',
       },
       readable: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/readable/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/readable/bootstrap.min.css',
       },
       sandstone: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/sandstone/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/sandstone/bootstrap.min.css',
       },
       simplex: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/simplex/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/simplex/bootstrap.min.css',
       },
       slate: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/slate/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/slate/bootstrap.min.css',
       },
       spacelab: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/spacelab/bootstrap.min.css',
+        stylesheet: 'http://fastly.jsdelivr.net/npm/bootswatch@3.3.6/spacelab/bootstrap.min.css',
       },
       'solarized-dark': {
         stylesheet: '//cdn.rawgit.com/aalpern/bootstrap-solarized/master/bootstrap-solarized-dark.css',
@@ -83,22 +83,22 @@ const themes: PlaygroundProps['themes'] = {
         stylesheet: '//cdn.rawgit.com/aalpern/bootstrap-solarized/master/bootstrap-solarized-light.css',
       },
       superhero: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/superhero/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/superhero/bootstrap.min.css',
       },
       united: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/united/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/united/bootstrap.min.css',
       },
       yeti: {
-        stylesheet: '//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/yeti/bootstrap.min.css',
+        stylesheet: 'https://fastly.jsdelivr.net/npm/bootswatch@3.3.6/yeti/bootstrap.min.css',
       },
     },
   },
   antd: {
-    stylesheet: '//cdnjs.cloudflare.com/ajax/libs/antd/4.1.4/antd.min.css',
+    stylesheet: 'https://fastly.jsdelivr.net/npm/antd@4.1.4/dist/antd.min.css',
     theme: AntdTheme,
   },
   'bootstrap-4': {
-    stylesheet: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css',
+    stylesheet: 'https://fastly.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css',
     theme: Bootstrap4Theme,
   },
   'chakra-ui': {
@@ -122,7 +122,7 @@ const themes: PlaygroundProps['themes'] = {
     theme: MuiV5Theme,
   },
   'semantic-ui': {
-    stylesheet: '//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css',
+    stylesheet: '//fastly.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css',
     theme: SuiTheme,
   },
 };
