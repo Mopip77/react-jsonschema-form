@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script>
       window.global = globalThis;
+
+      if (window.fetch) {
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+          if (typeof url === 'string' && url.includes('cdn.jsdelivr.net')) {
+            url = url.replace('cdn.jsdelivr.net', 'fastly.jsdelivr.net');
+          }
+          return originalFetch(url, options);
+        };
+      }
     </script>
   </head>
   <body>
