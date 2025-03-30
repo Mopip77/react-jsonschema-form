@@ -40,7 +40,7 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
     omitExtraData: false,
     liveOmit: false,
     experimental_defaultFormStateBehavior: {
-      arrayMinItems: { populate: 'all' },
+      arrayMinItems: { populate: 'requiredOnly' },
       emptyObjectFields: 'populateAllDefaults',
     },
   });
