@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { JSONParse } from 'json-with-bigint';
 
 interface SelectorProps {
   onSelected: (data: any) => void;
+  onSelectedName: (name: string) => void;
 }
 
 interface SavedSample {
@@ -13,9 +14,10 @@ interface SavedSample {
   formData: any;
 }
 
-const SavedSampleSelector = ({ onSelected }: SelectorProps) => {
+const SavedSampleSelector = ({ onSelected, onSelectedName }: SelectorProps) => {
   const [samples, setSamples] = useState<any[]>([]);
   const [selectedSampleId, setSelectedSampleId] = useState<string>('');
+
   useEffect(() => {
     const savedSampleKeys = localStorage.getItem('savedSampleKeys');
     if (savedSampleKeys) {
@@ -28,8 +30,9 @@ const SavedSampleSelector = ({ onSelected }: SelectorProps) => {
       event.preventDefault();
       setSelectedSampleId(sampleId);
       setTimeout(() => {
-        const savedSample = JSONParse(localStorage.getItem('savedSimples.' + sampleId) || '{}');
+        const savedSample = JSONParse(localStorage.getItem('savedSamples.' + sampleId) || '{}');
         onSelected(savedSample);
+        onSelectedName(savedSample.name);
       }, 0);
     };
   };
@@ -41,14 +44,12 @@ const SavedSampleSelector = ({ onSelected }: SelectorProps) => {
       </div>
       <hr />
       {(samples.length > 0 && (
-        <ul>
+        <ul className='nav nav-pills'>
           {samples.map((sample: SavedSample) => (
-            <li
-              key={sample.id}
-              onClick={() => handleSampleClick(sample.id)}
-              className={selectedSampleId === sample.id ? 'active' : ''}
-            >
-              {sample.name}
+            <li key={sample.id} role='presentation' className={selectedSampleId === sample.id ? 'active' : ''}>
+              <a href='#' onClick={handleSampleClick(sample.id)}>
+                {sample.name}
+              </a>
             </li>
           ))}
         </ul>

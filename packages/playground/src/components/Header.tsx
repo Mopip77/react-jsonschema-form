@@ -11,7 +11,8 @@ import SubthemeSelector from './SubthemeSelector';
 import RawValidatorTest from './RawValidatorTest';
 import SavedSampleSelector from './SavedSampleSelector';
 import { v4 as uuidv4 } from 'uuid';
-import { JSONStringify } from 'json-with-bigint';
+import { JSONStringify, JSONParse } from 'json-with-bigint';
+
 const HeaderButton: React.FC<
   {
     title: string;
@@ -25,34 +26,62 @@ const HeaderButton: React.FC<
   );
 };
 
-function SaveSampleModal({ onSave, onClose }: { onSave: (name: string) => void; onClose: () => void }) {
-  const [name, setName] = useState('');
-
+function SaveSampleModal({
+  onSave,
+  onClose,
+  className,
+  defaultSampleName,
+}: {
+  onSave: (name: string) => void;
+  onClose: () => void;
+  className: string;
+  defaultSampleName: string;
+}) {
+  const [name, setName] = useState(defaultSampleName);
   return (
-    <div id='save-sample-modal' className='modal' tabIndex={-1}>
+    <div id='save-sample-modal' className={`modal ${className}`} tabIndex={-1}>
       <div className='modal-dialog'>
         <div className='modal-content'>
           <div className='modal-header'>
             <h5 className='modal-title'>保存示例</h5>
           </div>
-          <div className='modal-body'>
-            <input
-              type='text'
-              required
-              className='form-control'
-              placeholder='示例名称'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className='modal-footer'>
-            <button type='button' className='btn btn-secondary' onClick={onClose}>
-              取消
-            </button>
-            <button type='button' className='btn btn-primary' onClick={() => onSave(name)}>
-              保存
-            </button>
-          </div>
+          <form
+            onSubmit={(e) => {
+              if (e.target instanceof HTMLFormElement) {
+                if (e.target.checkValidity() === false) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  return;
+                }
+                onSave(name);
+              }
+            }}
+          >
+            <div className='modal-body'>
+              <div className='form-row'>
+                <label htmlFor='sampleName' className='form-label'>
+                  示例名称
+                </label>
+                <input
+                  id='sampleName'
+                  type='text'
+                  required
+                  className='form-control'
+                  placeholder='eg: 通用课程门槛'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className='modal-footer'>
+              <button type='button' className='btn btn-secondary' onClick={onClose}>
+                取消
+              </button>
+              <button type='submit' className='btn btn-primary'>
+                保存
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -62,11 +91,14 @@ function SaveSampleModal({ onSave, onClose }: { onSave: (name: string) => void; 
 function HeaderButtons({
   playGroundFormRef,
   saveAsSample,
+  currentSampleName,
 }: {
   playGroundFormRef: React.MutableRefObject<any>;
   saveAsSample: (name: string) => void;
+  currentSampleName: string;
 }) {
   const [showSaveModal, setShowSaveModal] = useState(false);
+
   return (
     <>
       <label className='control-label'>Programmatic</label>
@@ -101,6 +133,8 @@ function HeaderButtons({
       </div>
       {showSaveModal && (
         <SaveSampleModal
+          className={showSaveModal ? 'show' : 'hidden'}
+          defaultSampleName={currentSampleName}
           onSave={(name) => {
             saveAsSample(name);
             setShowSaveModal(false);
@@ -331,6 +365,8 @@ export default function Header({
   setLiveSettings,
   setShareURL,
 }: HeaderProps) {
+  const [currentSampleName, setCurrentSampleName] = useState('');
+
   const onSubthemeSelected = useCallback(
     (subtheme: any, { stylesheet }: { stylesheet: any }) => {
       setSubtheme(subtheme);
@@ -379,7 +415,10 @@ export default function Header({
 
   const saveAsSample = useCallback(
     (name: string) => {
-      const sampleId = uuidv4();
+      const savedSampleKeys = JSONParse(localStorage.getItem('savedSampleKeys') || '[]');
+      const index = savedSampleKeys.findIndex((key: any) => key.name === name);
+      const sampleId = index === -1 ? uuidv4() : savedSampleKeys[index].id;
+
       localStorage.setItem(
         `savedSamples.${sampleId}`,
         JSONStringify({
@@ -392,6 +431,22 @@ export default function Header({
           validator,
         })
       );
+
+      if (index !== -1) {
+        // 更新已存在的样例
+        savedSampleKeys[index] = {
+          id: sampleId,
+          name,
+        };
+      } else {
+        // 在最前面插入新样例
+        savedSampleKeys.unshift({
+          id: sampleId,
+          name,
+        });
+      }
+
+      localStorage.setItem('savedSampleKeys', JSONStringify(savedSampleKeys));
     },
     [formData, liveSettings, schema, uiSchema, validator]
   );
@@ -401,8 +456,7 @@ export default function Header({
       <h1>jsonschema-表单编辑器</h1>
       <div className='row'>
         <div className='col-sm-4'>
-          {/* <Selector onSelected={load} /> */}
-          <SavedSampleSelector onSelected={load} />
+          <SavedSampleSelector onSelected={load} onSelectedName={setCurrentSampleName} />
         </div>
         <div className='col-sm-2'>
           <Form
@@ -434,7 +488,11 @@ export default function Header({
             <SubthemeSelector subthemes={themes[theme].subthemes!} subtheme={subtheme} select={onSubthemeSelected} />
           )}
           <ValidatorSelector validators={validators} validator={validator} select={onValidatorSelected} />
-          <HeaderButtons playGroundFormRef={playGroundFormRef} saveAsSample={saveAsSample} />
+          <HeaderButtons
+            playGroundFormRef={playGroundFormRef}
+            saveAsSample={saveAsSample}
+            currentSampleName={currentSampleName}
+          />
           <div style={{ marginTop: '5px' }} />
           <CopyLink shareURL={shareURL} onShare={onShare} />
         </div>
