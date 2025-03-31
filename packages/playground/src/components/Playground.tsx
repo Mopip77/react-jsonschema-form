@@ -77,6 +77,8 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
         ...rest
       } = data;
 
+      console.log('load', data);
+
       // To support mui v6 `material-ui-5` was change to `mui` fix the load to update that as well
       const theTheme = dataTheme === 'material-ui-5' ? 'mui' : dataTheme;
       onThemeSelected(theTheme, themes[theTheme]);

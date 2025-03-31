@@ -6,10 +6,10 @@ import base64 from '../utils/base64';
 
 import CopyLink from './CopyLink';
 import ThemeSelector, { ThemesType } from './ThemeSelector';
-import Selector from './Selector';
 import ValidatorSelector from './ValidatorSelector';
 import SubthemeSelector from './SubthemeSelector';
 import RawValidatorTest from './RawValidatorTest';
+import SavedSampleSelector from './SavedSampleSelector';
 
 const HeaderButton: React.FC<
   {
@@ -322,7 +322,14 @@ export default function Header({
       <h1>jsonschema-表单编辑器</h1>
       <div className='row'>
         <div className='col-sm-4'>
-          <Selector onSelected={load} />
+          <SavedSampleSelector
+            onSelected={load}
+            schema={schema}
+            uiSchema={uiSchema}
+            formData={formData}
+            liveSettings={liveSettings}
+            validator={validator}
+          />
         </div>
         <div className='col-sm-2'>
           <Form
