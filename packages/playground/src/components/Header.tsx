@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import Form, { IChangeEvent } from '@rjsf/core';
 import { RJSFSchema, UiSchema, ValidatorType } from '@rjsf/utils';
 import localValidator from '@rjsf/validator-ajv8';
@@ -6,11 +6,12 @@ import base64 from '../utils/base64';
 
 import CopyLink from './CopyLink';
 import ThemeSelector, { ThemesType } from './ThemeSelector';
-import Selector from './Selector';
 import ValidatorSelector from './ValidatorSelector';
 import SubthemeSelector from './SubthemeSelector';
 import RawValidatorTest from './RawValidatorTest';
-
+import SavedSampleSelector from './SavedSampleSelector';
+import { v4 as uuidv4 } from 'uuid';
+import { JSONStringify } from 'json-with-bigint';
 const HeaderButton: React.FC<
   {
     title: string;
@@ -24,7 +25,48 @@ const HeaderButton: React.FC<
   );
 };
 
-function HeaderButtons({ playGroundFormRef }: { playGroundFormRef: React.MutableRefObject<any> }) {
+function SaveSampleModal({ onSave, onClose }: { onSave: (name: string) => void; onClose: () => void }) {
+  const [name, setName] = useState('');
+
+  return (
+    <div id='save-sample-modal' className='modal' tabIndex={-1}>
+      <div className='modal-dialog'>
+        <div className='modal-content'>
+          <div className='modal-header'>
+            <h5 className='modal-title'>保存示例</h5>
+          </div>
+          <div className='modal-body'>
+            <input
+              type='text'
+              required
+              className='form-control'
+              placeholder='示例名称'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className='modal-footer'>
+            <button type='button' className='btn btn-secondary' onClick={onClose}>
+              取消
+            </button>
+            <button type='button' className='btn btn-primary' onClick={() => onSave(name)}>
+              保存
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeaderButtons({
+  playGroundFormRef,
+  saveAsSample,
+}: {
+  playGroundFormRef: React.MutableRefObject<any>;
+  saveAsSample: (name: string) => void;
+}) {
+  const [showSaveModal, setShowSaveModal] = useState(false);
   return (
     <>
       <label className='control-label'>Programmatic</label>
@@ -47,7 +89,25 @@ function HeaderButtons({ playGroundFormRef }: { playGroundFormRef: React.Mutable
         >
           Reset
         </HeaderButton>
+        <HeaderButton
+          title='Click me to save the form programmatically.'
+          onClick={() => {
+            console.log('show save modal');
+            setShowSaveModal(true);
+          }}
+        >
+          Save
+        </HeaderButton>
       </div>
+      {showSaveModal && (
+        <SaveSampleModal
+          onSave={(name) => {
+            saveAsSample(name);
+            setShowSaveModal(false);
+          }}
+          onClose={() => setShowSaveModal(false)}
+        />
+      )}
     </>
   );
 }
@@ -317,12 +377,32 @@ export default function Header({
     }
   }, [formData, liveSettings, schema, theme, uiSchema, validator, setShareURL]);
 
+  const saveAsSample = useCallback(
+    (name: string) => {
+      const sampleId = uuidv4();
+      localStorage.setItem(
+        `savedSamples.${sampleId}`,
+        JSONStringify({
+          id: sampleId,
+          name,
+          schema,
+          uiSchema,
+          formData,
+          liveSettings,
+          validator,
+        })
+      );
+    },
+    [formData, liveSettings, schema, uiSchema, validator]
+  );
+
   return (
     <div className='page-header'>
       <h1>jsonschema-表单编辑器</h1>
       <div className='row'>
         <div className='col-sm-4'>
-          <Selector onSelected={load} />
+          {/* <Selector onSelected={load} /> */}
+          <SavedSampleSelector onSelected={load} />
         </div>
         <div className='col-sm-2'>
           <Form
@@ -354,7 +434,7 @@ export default function Header({
             <SubthemeSelector subthemes={themes[theme].subthemes!} subtheme={subtheme} select={onSubthemeSelected} />
           )}
           <ValidatorSelector validators={validators} validator={validator} select={onValidatorSelected} />
-          <HeaderButtons playGroundFormRef={playGroundFormRef} />
+          <HeaderButtons playGroundFormRef={playGroundFormRef} saveAsSample={saveAsSample} />
           <div style={{ marginTop: '5px' }} />
           <CopyLink shareURL={shareURL} onShare={onShare} />
         </div>
