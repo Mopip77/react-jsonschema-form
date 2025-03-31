@@ -41,7 +41,7 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
     liveOmit: false,
     experimental_defaultFormStateBehavior: {
       arrayMinItems: { populate: 'requiredOnly' },
-      emptyObjectFields: 'populateAllDefaults',
+      emptyObjectFields: 'populateRequiredDefaults',
     },
   });
   const [FormComponent, setFormComponent] = useState<ComponentType<FormProps>>(withTheme({}));
