@@ -80,7 +80,7 @@ function SaveSampleModal({
                 取消
               </button>
               <button type='submit' className='btn btn-primary'>
-                保存
+                {defaultSampleName === name ? '更新' : '保存'}
               </button>
             </div>
           </form>
