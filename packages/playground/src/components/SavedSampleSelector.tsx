@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useCallback } from 'react';
 import { JSONParse } from 'json-with-bigint';
 import { v4 as uuidv4 } from 'uuid';
 import { JSONStringify } from 'json-with-bigint';
@@ -90,6 +90,43 @@ function SaveSampleModal({
   );
 }
 
+function DeleteSampleModal({
+  onDelete,
+  onClose,
+  className,
+  sampleId,
+  sampleName,
+}: {
+  onDelete: (sampleId: string) => void;
+  onClose: () => void;
+  className: string;
+  sampleId: string;
+  sampleName: string;
+}) {
+  return (
+    <div id='delete-sample-modal' className={`modal ${className}`} tabIndex={-1}>
+      <div className='modal-dialog'>
+        <div className='modal-content'>
+          <div className='modal-header'>
+            <h5 className='modal-title'>删除示例</h5>
+          </div>
+          <div className='modal-body'>
+            <p>确定要删除示例【{sampleName}】吗？</p>
+          </div>
+          <div className='modal-footer'>
+            <button type='button' className='btn btn-secondary' onClick={onClose}>
+              取消
+            </button>
+            <button type='button' className='btn btn-danger' onClick={() => onDelete(sampleId)}>
+              删除
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const saveAsSample = ({ name, schema, uiSchema, formData, liveSettings, validator }: SavedSampleProps) => {
   const savedSampleKeys = JSONParse(localStorage.getItem('savedSampleKeys') || '[]');
   const index = savedSampleKeys.findIndex((key: any) => key.name === name);
@@ -125,6 +162,15 @@ const saveAsSample = ({ name, schema, uiSchema, formData, liveSettings, validato
   localStorage.setItem('savedSampleKeys', JSONStringify(savedSampleKeys));
 };
 
+const deleteSample = (sampleId: string) => {
+  const savedSampleKeys = JSONParse(localStorage.getItem('savedSampleKeys') || '[]');
+  const index = savedSampleKeys.findIndex((key: any) => key.id === sampleId);
+  savedSampleKeys.splice(index, 1);
+  localStorage.setItem('savedSampleKeys', JSONStringify(savedSampleKeys));
+
+  localStorage.removeItem(`savedSamples.${sampleId}`);
+};
+
 const SavedSampleSelector = ({
   onSelected,
   schema,
@@ -137,6 +183,13 @@ const SavedSampleSelector = ({
   const [selectedSampleId, setSelectedSampleId] = useState<string>('');
   const [currentSampleName, setCurrentSampleName] = useState<string>('');
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+  const init = useCallback(() => {
+    setSelectedSampleId('');
+    setCurrentSampleName('');
+    updateSamples();
+  }, []);
 
   const updateSamples = () => {
     const savedSampleKeys = localStorage.getItem('savedSampleKeys');
@@ -146,8 +199,8 @@ const SavedSampleSelector = ({
   };
 
   useEffect(() => {
-    updateSamples();
-  }, []);
+    init();
+  }, [init]);
 
   const handleSampleClick = (sampleId: string) => {
     return (event: MouseEvent) => {
@@ -166,7 +219,12 @@ const SavedSampleSelector = ({
       <hr style={{ margin: '10px 0' }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', gap: '10px' }}>
         <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>保存的示例</div>
-        <div>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {selectedSampleId && (
+            <button className='btn btn-danger btn-sm' onClick={() => setShowDeleteModal(true)}>
+              删除
+            </button>
+          )}
           <button className='btn btn-default btn-sm' onClick={() => setShowSaveModal(true)}>
             保存示例
           </button>
@@ -180,6 +238,19 @@ const SavedSampleSelector = ({
                 setShowSaveModal(false);
               }}
               onClose={() => setShowSaveModal(false)}
+            />
+          )}
+          {showDeleteModal && (
+            <DeleteSampleModal
+              className={showDeleteModal ? 'show' : 'hidden'}
+              sampleId={selectedSampleId}
+              sampleName={currentSampleName}
+              onDelete={(sampleId) => {
+                deleteSample(sampleId);
+                init();
+                setShowDeleteModal(false);
+              }}
+              onClose={() => setShowDeleteModal(false)}
             />
           )}
         </div>
