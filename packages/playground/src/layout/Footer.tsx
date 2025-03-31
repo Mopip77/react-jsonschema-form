@@ -15,6 +15,7 @@ export default function Footer() {
       <div style={{ margin: '10px 0', borderRadius: '0.25rem' }}>
         <h4>调整内容</h4>
         <ol>
+          <li>🌟 支持保存示例</li>
           <li>🐞 修复 bigint 精度问题</li>
           <li>🛠️ 【Live validation】默认开启</li>
           <li>🛠️ 数组中没有元素默认不生成数组字段(Populate minItems in arrays -{'>'} requiredOnly)</li>
