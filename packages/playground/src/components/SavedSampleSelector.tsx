@@ -138,11 +138,15 @@ const SavedSampleSelector = ({
   const [currentSampleName, setCurrentSampleName] = useState<string>('');
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
 
-  useEffect(() => {
+  const updateSamples = () => {
     const savedSampleKeys = localStorage.getItem('savedSampleKeys');
     if (savedSampleKeys) {
       setSamples(JSONParse(savedSampleKeys));
     }
+  };
+
+  useEffect(() => {
+    updateSamples();
   }, []);
 
   const handleSampleClick = (sampleId: string) => {
@@ -172,6 +176,7 @@ const SavedSampleSelector = ({
               defaultSampleName={currentSampleName}
               onSave={(name) => {
                 saveAsSample({ name, schema, uiSchema, formData, liveSettings, validator });
+                updateSamples();
                 setShowSaveModal(false);
               }}
               onClose={() => setShowSaveModal(false)}
