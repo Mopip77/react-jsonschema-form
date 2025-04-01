@@ -13,7 +13,7 @@ export default function AddButton<T = any, S extends StrictRJSFSchema = RJSFSche
   const { translateString } = registry;
   return (
     <div className='row'>
-      <p className={`col-xs-3 col-xs-offset-9 text-right ${className}`}>
+      <p className={`col-xs-2 col-xs-offset-10 text-right ${className}`}>
         <IconButton
           iconType='info'
           icon='plus'

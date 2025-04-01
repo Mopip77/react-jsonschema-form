@@ -36,9 +36,9 @@ export default function ArrayFieldItemTemplate<
   };
   return (
     <div className={className}>
-      <div className={hasToolbar ? 'col-xs-9' : 'col-xs-12'}>{children}</div>
+      <div className={hasToolbar ? 'col-xs-10' : 'col-xs-12'}>{children}</div>
       {hasToolbar && (
-        <div className='col-xs-3 array-item-toolbox'>
+        <div className='col-xs-2 array-item-toolbox'>
           <div
             className='btn-group'
             style={{
