@@ -81,8 +81,6 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
         ...rest
       } = data;
 
-      console.log('load', data);
-
       // To support mui v6 `material-ui-5` was change to `mui` fix the load to update that as well
       const theTheme = dataTheme === 'material-ui-5' ? 'mui' : dataTheme;
       onThemeSelected(theTheme, themes[theTheme]);
@@ -152,16 +150,6 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
     setCurrentPath(null);
   }, []);
 
-  // 扩展 uiSchema，添加 hover 事件处理
-  // const enhancedUiSchema = {
-  //   ...uiSchema,
-  //   'ui:options': {
-  //     ...uiSchema['ui:options'],
-  //     onFocus: (id: string, value: string) => onFieldHover(id, value),
-  //     onBlur: () => onFieldBlur(),
-  //   },
-  // };
-
   return (
     <>
       <JsonPathViewer path={currentPath} />
@@ -204,6 +192,122 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
                 head={
                   <>
                     <link rel='stylesheet' id='theme' href={stylesheet || ''} />
+                    <style>
+                      {`
+                        fieldset#root_0 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_1 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_2 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_3 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_4 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_5 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_6 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_7 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_8 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_9 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_10 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_11 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_12 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_13 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_14 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                        fieldset#root_15 {
+                          border: 1px solid #e0e0e0;
+                          border-radius: 4px;
+                          padding: 16px;
+                          margin-bottom: 16px;
+                          background-color: #fafafa;
+                        }
+                      `}
+                    </style>
                   </>
                 }
                 style={{
