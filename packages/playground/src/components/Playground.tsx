@@ -21,6 +21,38 @@ export interface PlaygroundProps {
   validators: { [validatorName: string]: ValidatorType };
 }
 
+const overrideFormStyle = `
+        fieldset[id="root_0"],
+        fieldset[id="root_1"],
+        fieldset[id="root_2"],
+        fieldset[id="root_3"],
+        fieldset[id="root_4"],
+        fieldset[id="root_5"],
+        fieldset[id="root_6"],
+        fieldset[id="root_7"],
+        fieldset[id="root_8"],
+        fieldset[id="root_9"],
+        fieldset[id="root_10"],
+        fieldset[id="root_11"] {
+          border: 1px solid hsl(0, 0%, 88%);
+          border-radius: 4px;
+          padding: 16px;
+          margin-bottom: 16px;
+        }
+        fieldset#root_0 { background-color: hsl(0, 30%, 95%); }    /* 红色调 */
+        fieldset#root_1 { background-color: hsl(30, 30%, 95%); }   /* 橙色调 */
+        fieldset#root_2 { background-color: hsl(60, 30%, 95%); }   /* 黄色调 */
+        fieldset#root_3 { background-color: hsl(90, 25%, 95%); }   /* 黄绿调 */
+        fieldset#root_4 { background-color: hsl(120, 20%, 95%); }  /* 绿色调 */
+        fieldset#root_5 { background-color: hsl(150, 25%, 95%); }  /* 青绿调 */
+        fieldset#root_6 { background-color: hsl(180, 30%, 95%); }  /* 青色调 */
+        fieldset#root_7 { background-color: hsl(210, 30%, 95%); }  /* 天蓝调 */
+        fieldset#root_8 { background-color: hsl(240, 25%, 95%); }  /* 蓝色调 */
+        fieldset#root_9 { background-color: hsl(270, 25%, 95%); }  /* 紫色调 */
+        fieldset#root_10 { background-color: hsl(300, 25%, 95%); } /* 紫红调 */
+        fieldset#root_11 { background-color: hsl(330, 30%, 95%); } /* 玫红调 */
+`;
+
 export default function Playground({ themes, validators }: PlaygroundProps) {
   const [loaded, setLoaded] = useState(false);
   const [schema, setSchema] = useState<RJSFSchema>(samples.Simple.schema as RJSFSchema);
@@ -192,122 +224,7 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
                 head={
                   <>
                     <link rel='stylesheet' id='theme' href={stylesheet || ''} />
-                    <style>
-                      {`
-                        fieldset#root_0 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_1 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_2 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_3 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_4 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_5 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_6 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_7 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_8 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_9 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_10 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_11 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_12 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_13 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_14 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                        fieldset#root_15 {
-                          border: 1px solid #e0e0e0;
-                          border-radius: 4px;
-                          padding: 16px;
-                          margin-bottom: 16px;
-                          background-color: #fafafa;
-                        }
-                      `}
-                    </style>
+                    <style>{overrideFormStyle}</style>
                   </>
                 }
                 style={{
