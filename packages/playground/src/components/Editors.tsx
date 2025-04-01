@@ -127,14 +127,8 @@ export default function Editors({
   return (
     <div className='col-sm-7'>
       <Editor title='JSONSchema' code={toJson(schema)} onChange={onSchemaEdited} />
-      <div className='row'>
-        <div className='col-sm-6'>
-          <Editor title='UISchema' code={toJson(uiSchema)} onChange={onUISchemaEdited} />
-        </div>
-        <div className='col-sm-6'>
-          <Editor title='formData' code={toJson(formData)} onChange={onFormDataEdited} />
-        </div>
-      </div>
+      <Editor title='formData' code={toJson(formData)} onChange={onFormDataEdited} />
+      <Editor title='UISchema' code={toJson(uiSchema)} onChange={onUISchemaEdited} />
       {extraErrors && (
         <div className='row'>
           <div className='col'>
