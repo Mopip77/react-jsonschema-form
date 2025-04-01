@@ -2,6 +2,7 @@ import { ComponentType, FormEvent, useCallback, useEffect, useRef, useState } fr
 import { FormProps, IChangeEvent, withTheme } from '@rjsf/core';
 import { ErrorSchema, RJSFSchema, RJSFValidationError, UiSchema, ValidatorType } from '@rjsf/utils';
 import base64 from '../utils/base64';
+import './Playground.css';
 
 import { samples } from '../samples';
 import Header, { LiveSettings } from './Header';
@@ -12,6 +13,7 @@ import { ThemesType } from './ThemeSelector';
 import Editors from './Editors';
 import SpecialInput from './SpecialInput';
 import { Sample } from '../samples/Sample';
+import Split from 'react-split';
 
 export interface PlaygroundProps {
   themes: { [themeName: string]: ThemesType };
@@ -162,64 +164,66 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
         setLiveSettings={setLiveSettings}
         setShareURL={setShareURL}
       />
-      <Editors
-        formData={formData}
-        setFormData={setFormData}
-        schema={schema}
-        setSchema={setSchema}
-        uiSchema={uiSchema}
-        setUiSchema={setUiSchema}
-        extraErrors={extraErrors}
-        setExtraErrors={setExtraErrors}
-        setShareURL={setShareURL}
-      />
-      <div className='col-sm-5'>
-        <ErrorBoundary>
-          {showForm && (
-            <DemoFrame
-              head={
-                <>
-                  <link rel='stylesheet' id='theme' href={stylesheet || ''} />
-                </>
-              }
-              style={{
-                width: '100%',
-                height: 1000,
-                border: 0,
-              }}
-              theme={theme}
-            >
-              <FormComponent
-                {...otherFormProps}
-                {...liveSettings}
-                extraErrors={extraErrors}
-                schema={schema}
-                uiSchema={uiSchema}
-                formData={formData}
-                fields={{
-                  geo: GeoPosition,
-                  '/schemas/specialString': SpecialInput,
+      <Split className='split'>
+        <Editors
+          formData={formData}
+          setFormData={setFormData}
+          schema={schema}
+          setSchema={setSchema}
+          uiSchema={uiSchema}
+          setUiSchema={setUiSchema}
+          extraErrors={extraErrors}
+          setExtraErrors={setExtraErrors}
+          setShareURL={setShareURL}
+        />
+        <div className='col-sm-5'>
+          <ErrorBoundary>
+            {showForm && (
+              <DemoFrame
+                head={
+                  <>
+                    <link rel='stylesheet' id='theme' href={stylesheet || ''} />
+                  </>
+                }
+                style={{
+                  width: '100%',
+                  height: 1000,
+                  border: 0,
                 }}
-                validator={validators[validator]}
-                onChange={onFormDataChange}
-                onSubmit={onFormDataSubmit}
-                onBlur={(id: string, value: string) => console.log(`Touched ${id} with value ${value}`)}
-                onFocus={(id: string, value: string) => console.log(`Focused ${id} with value ${value}`)}
-                onError={(errorList: RJSFValidationError[]) => console.log('errors', errorList)}
-                transformErrors={(errors) => {
-                  return errors.filter((error) => {
-                    if (error.message === 'must be integer' && typeof error.data === 'bigint') {
-                      return false;
-                    }
-                    return true;
-                  });
-                }}
-                ref={playGroundFormRef}
-              />
-            </DemoFrame>
-          )}
-        </ErrorBoundary>
-      </div>
+                theme={theme}
+              >
+                <FormComponent
+                  {...otherFormProps}
+                  {...liveSettings}
+                  extraErrors={extraErrors}
+                  schema={schema}
+                  uiSchema={uiSchema}
+                  formData={formData}
+                  fields={{
+                    geo: GeoPosition,
+                    '/schemas/specialString': SpecialInput,
+                  }}
+                  validator={validators[validator]}
+                  onChange={onFormDataChange}
+                  onSubmit={onFormDataSubmit}
+                  onBlur={(id: string, value: string) => console.log(`Touched ${id} with value ${value}`)}
+                  onFocus={(id: string, value: string) => console.log(`Focused ${id} with value ${value}`)}
+                  onError={(errorList: RJSFValidationError[]) => console.log('errors', errorList)}
+                  transformErrors={(errors) => {
+                    return errors.filter((error) => {
+                      if (error.message === 'must be integer' && typeof error.data === 'bigint') {
+                        return false;
+                      }
+                      return true;
+                    });
+                  }}
+                  ref={playGroundFormRef}
+                />
+              </DemoFrame>
+            )}
+          </ErrorBoundary>
+        </div>
+      </Split>
     </>
   );
 }
