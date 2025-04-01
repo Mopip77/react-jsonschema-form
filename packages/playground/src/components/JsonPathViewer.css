@@ -1,0 +1,14 @@
+.json-path-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  font-family: monospace;
+  z-index: 1000;
+  text-align: left;
+  font-size: 14px;
+  transition: opacity 0.3s ease;
+}

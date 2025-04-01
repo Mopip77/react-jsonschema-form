@@ -14,6 +14,7 @@ import Editors from './Editors';
 import SpecialInput from './SpecialInput';
 import { Sample } from '../samples/Sample';
 import Split from 'react-split';
+import JsonPathViewer from './JsonPathViewer';
 
 export interface PlaygroundProps {
   themes: { [themeName: string]: ThemesType };
@@ -48,6 +49,7 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
   });
   const [FormComponent, setFormComponent] = useState<ComponentType<FormProps>>(withTheme({}));
   const [otherFormProps, setOtherFormProps] = useState<Partial<FormProps>>({});
+  const [currentPath, setCurrentPath] = useState<string | null>(null);
 
   const playGroundFormRef = useRef<any>(null);
 
@@ -142,8 +144,27 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
     window.alert('Form submitted');
   }, []);
 
+  const onFieldHover = useCallback((id: string) => {
+    setCurrentPath(id);
+  }, []);
+
+  const onFieldBlur = useCallback(() => {
+    setCurrentPath(null);
+  }, []);
+
+  // 扩展 uiSchema，添加 hover 事件处理
+  // const enhancedUiSchema = {
+  //   ...uiSchema,
+  //   'ui:options': {
+  //     ...uiSchema['ui:options'],
+  //     onFocus: (id: string, value: string) => onFieldHover(id, value),
+  //     onBlur: () => onFieldBlur(),
+  //   },
+  // };
+
   return (
     <>
+      <JsonPathViewer path={currentPath} />
       <Header
         schema={schema}
         uiSchema={uiSchema}
@@ -206,17 +227,13 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
                   validator={validators[validator]}
                   onChange={onFormDataChange}
                   onSubmit={onFormDataSubmit}
-                  onBlur={(id: string, value: string) => console.log(`Touched ${id} with value ${value}`)}
-                  onFocus={(id: string, value: string) => console.log(`Focused ${id} with value ${value}`)}
-                  onError={(errorList: RJSFValidationError[]) => console.log('errors', errorList)}
-                  transformErrors={(errors) => {
-                    return errors.filter((error) => {
-                      if (error.message === 'must be integer' && typeof error.data === 'bigint') {
-                        return false;
-                      }
-                      return true;
-                    });
+                  onBlur={() => {
+                    onFieldBlur();
                   }}
+                  onFocus={(id: string) => {
+                    onFieldHover(id);
+                  }}
+                  onError={(errorList: RJSFValidationError[]) => console.log('errors', errorList)}
                   ref={playGroundFormRef}
                 />
               </DemoFrame>
