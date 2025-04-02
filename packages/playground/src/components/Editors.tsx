@@ -3,6 +3,7 @@ import MonacoEditor from '@monaco-editor/react';
 import { ErrorSchema, RJSFSchema, UiSchema } from '@rjsf/utils';
 import isEqualWith from 'lodash/isEqualWith';
 import { JSONParse, JSONStringify } from 'json-with-bigint';
+import './Editors.css';
 
 const monacoEditorOptions = {
   minimap: {
@@ -15,10 +16,12 @@ type EditorProps = {
   title: string;
   code: string;
   onChange: (code: string) => void;
+  enableFullscreen?: boolean;
 };
 
-function Editor({ title, code, onChange }: EditorProps) {
+function Editor({ title, code, onChange, enableFullscreen = false }: EditorProps) {
   const [valid, setValid] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const onCodeChange = useCallback(
     (code: string | undefined) => {
@@ -37,24 +40,40 @@ function Editor({ title, code, onChange }: EditorProps) {
     [setValid, onChange]
   );
 
+  const toggleFullscreen = useCallback(() => {
+    setIsFullscreen((prev) => !prev);
+  }, []);
+
   const icon = valid ? 'ok' : 'remove';
   const cls = valid ? 'valid' : 'invalid';
 
   return (
-    <div className='panel panel-default'>
-      <div className='panel-heading'>
-        <span className={`${cls} glyphicon glyphicon-${icon}`} />
-        {' ' + title}
+    <>
+      <div className={`panel panel-default ${isFullscreen ? 'editor-fullscreen' : ''}`}>
+        <div className='panel-heading'>
+          <div className='editor-header'>
+            <div>
+              <span className={`${cls} glyphicon glyphicon-${icon}`} />
+              {' ' + title}
+            </div>
+            {enableFullscreen && (
+              <button className='btn btn-sm btn-default' onClick={toggleFullscreen}>
+                <span className={`glyphicon glyphicon-${isFullscreen ? 'resize-small' : 'resize-full'}`} />
+              </button>
+            )}
+          </div>
+        </div>
+        <MonacoEditor
+          language='json'
+          value={code}
+          theme='vs-light'
+          onChange={onCodeChange}
+          height={isFullscreen ? '90vh' : 400}
+          options={monacoEditorOptions}
+        />
       </div>
-      <MonacoEditor
-        language='json'
-        value={code}
-        theme='vs-light'
-        onChange={onCodeChange}
-        height={400}
-        options={monacoEditorOptions}
-      />
-    </div>
+      {isFullscreen && <div className='editor-overlay' onClick={toggleFullscreen} />}
+    </>
   );
 }
 
@@ -126,13 +145,18 @@ export default function Editors({
 
   return (
     <div className='col-sm-7'>
-      <Editor title='JSONSchema' code={toJson(schema)} onChange={onSchemaEdited} />
-      <Editor title='formData' code={toJson(formData)} onChange={onFormDataEdited} />
-      <Editor title='UISchema' code={toJson(uiSchema)} onChange={onUISchemaEdited} />
+      <Editor title='JSONSchema' code={toJson(schema)} onChange={onSchemaEdited} enableFullscreen={true} />
+      <Editor title='formData' code={toJson(formData)} onChange={onFormDataEdited} enableFullscreen={true} />
+      <Editor title='UISchema' code={toJson(uiSchema)} onChange={onUISchemaEdited} enableFullscreen={true} />
       {extraErrors && (
         <div className='row'>
           <div className='col'>
-            <Editor title='extraErrors' code={toJson(extraErrors || {})} onChange={onExtraErrorsEdited} />
+            <Editor
+              title='extraErrors'
+              code={toJson(extraErrors || {})}
+              onChange={onExtraErrorsEdited}
+              enableFullscreen={true}
+            />
           </div>
         </div>
       )}
