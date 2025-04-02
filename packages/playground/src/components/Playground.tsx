@@ -255,6 +255,14 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
                     onFieldHover(id);
                   }}
                   onError={(errorList: RJSFValidationError[]) => console.log('errors', errorList)}
+                  transformErrors={(errors) => {
+                    return errors.filter((error) => {
+                      if (error.message === 'must be integer' && typeof error.data === 'bigint') {
+                        return false;
+                      }
+                      return true;
+                    });
+                  }}
                   ref={playGroundFormRef}
                 />
               </DemoFrame>
