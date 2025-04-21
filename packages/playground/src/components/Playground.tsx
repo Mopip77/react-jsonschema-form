@@ -15,6 +15,7 @@ import SpecialInput from './SpecialInput';
 import { Sample } from '../samples/Sample';
 import Split from 'react-split';
 import JsonPathViewer from './JsonPathViewer';
+import { JSONParse } from 'json-with-bigint';
 
 export interface PlaygroundProps {
   themes: { [themeName: string]: ThemesType };
@@ -140,7 +141,7 @@ export default function Playground({ themes, validators }: PlaygroundProps) {
     if (hash && typeof hash[1] === 'string' && hash[1].length > 0 && !loaded) {
       try {
         const decoded = base64.decode(hash[1]);
-        load(JSON.parse(decoded));
+        load(JSONParse(decoded));
         setLoaded(true);
       } catch (error) {
         alert('Unable to load form setup data.');

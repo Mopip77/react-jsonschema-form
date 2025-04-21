@@ -10,6 +10,7 @@ import ValidatorSelector from './ValidatorSelector';
 import SubthemeSelector from './SubthemeSelector';
 import RawValidatorTest from './RawValidatorTest';
 import SavedSampleSelector from './SavedSampleSelector';
+import { JSONStringify } from 'json-with-bigint';
 
 const HeaderButton: React.FC<
   {
@@ -300,7 +301,7 @@ export default function Header({
 
     try {
       const hash = base64.encode(
-        JSON.stringify({
+        JSONStringify({
           formData,
           schema,
           uiSchema,
