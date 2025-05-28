@@ -1,11 +1,11 @@
 import {
   getTemplate,
-  localToUTC,
-  utcToLocal,
+  localToSimpleDateString,
   FormContextType,
   RJSFSchema,
   StrictRJSFSchema,
   WidgetProps,
+  simpleDateStringToLocal,
 } from '@rjsf/utils';
 
 /** The `DateTimeWidget` component uses the `BaseInputTemplate` changing the type to `datetime-local` and transforms
@@ -24,8 +24,8 @@ export default function DateTimeWidget<
     <BaseInputTemplate
       type='datetime-local'
       {...props}
-      value={utcToLocal(value)}
-      onChange={(value) => onChange(localToUTC(value))}
+      value={simpleDateStringToLocal(value)}
+      onChange={(value) => onChange(localToSimpleDateString(value))}
     />
   );
 }

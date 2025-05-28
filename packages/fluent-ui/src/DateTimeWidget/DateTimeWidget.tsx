@@ -1,11 +1,11 @@
 import {
   WidgetProps,
   getTemplate,
-  localToUTC,
-  utcToLocal,
+  localToSimpleDateString,
   StrictRJSFSchema,
   RJSFSchema,
   FormContextType,
+  simpleDateStringToLocal,
 } from '@rjsf/utils';
 
 export default function DateTimeWidget<
@@ -24,9 +24,9 @@ export default function DateTimeWidget<
   };
   const BaseInputTemplate = getTemplate<'BaseInputTemplate', T, S, F>('BaseInputTemplate', registry, options);
 
-  const value = utcToLocal(props.value);
+  const value = simpleDateStringToLocal(props.value);
   const onChange = (value: any) => {
-    props.onChange(localToUTC(value));
+    props.onChange(localToSimpleDateString(value));
   };
   // TODO: rows and columns.
   return <BaseInputTemplate {...props} options={options} value={value} onChange={onChange} />;

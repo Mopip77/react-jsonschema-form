@@ -53,6 +53,8 @@ import validationDataMerge from './validationDataMerge';
 import withIdRefPrefix from './withIdRefPrefix';
 import getOptionMatchingSimpleDiscriminator from './getOptionMatchingSimpleDiscriminator';
 import getChangedFields from './getChangedFields';
+import localToSimpleDateString from './localToSimpleDateString';
+import simpleDateStringToLocal from './simpleDateStringToLocal';
 
 export * from './types';
 export * from './enums';
@@ -103,6 +105,7 @@ export {
   isObject,
   labelValue,
   localToUTC,
+  localToSimpleDateString,
   mergeDefaultsWithFormData,
   mergeObjects,
   mergeSchemas,
@@ -122,6 +125,7 @@ export {
   toErrorSchema,
   unwrapErrorHandler,
   utcToLocal,
+  simpleDateStringToLocal,
   validationDataMerge,
   withIdRefPrefix,
 };
