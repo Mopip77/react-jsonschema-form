@@ -21,6 +21,7 @@ function ChangelogModal({ onClose, className }: { onClose: () => void; className
                 🛠️ 如果父元素不是 required , 则不生成 reqired 子元素字段(Object fields default behavior -{'>'}{' '}
                 populateRequiredDefaults)
               </li>
+              <li>🛠️ 【DateTimeWidget】时间格式改为 yyyy-MM-dd HH:mm:ss</li>
             </ol>
           </div>
           <div className='modal-footer'>
